@@ -1,5 +1,4 @@
-import SimpleLightbox from "simplelightbox";
-
+import SimpleLightbox from 'simplelightbox';
 
 const images = [
   {
@@ -67,21 +66,29 @@ const images = [
   },
 ];
 
-const galleryContainer = document.querySelector(".gallery");
+function createGallery(images) {
+  return images
+    .map(
+      ({ original, preview, description }) => `<li class="gallery-item">
+        <a class="gallery-link" href="${original}">
+        <img class="gallery-image"
+        class="gallery-image"
+        src="${preview}" 
+        alt="${description}"
+        />
+        </a>
+        </li>`
+    )
+    .join('');
+}
 
-let galleryData = '';
-images.forEach(image => {
-    galleryData += `
-        <li class="gallery-item">
-            <a class="gallery-link" href="${image.original}">
-                <img class="gallery-image" src="${image.preview}" alt="${image.description}" />
-            </a>
-        </li>`;
-});
-galleryContainer.insertAdjacentHTML("afterbegin", galleryData);
+const addGalleryitems = createGallery(images);
 
-const gallery = new SimpleLightbox('.gallery a', {
-    overlayOpacity: 0.8,
-    captionsData: 'alt',
-    captionDelay: 250,
+const gallery = document.querySelector('.gallery');
+gallery.insertAdjacentHTML('afterbegin', addGalleryitems);
+
+const lightbox = new SimpleLightbox('.gallery a', {
+  overlayOpacity: 0.8,
+  captionsData: 'alt',
+  captionDelay: 250,
 });
